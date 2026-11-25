@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1480" height="1130" viewBox="0 0 1480 1130">
+  <defs>
+    <style>
+      text{font-family:Arial,DejaVu Sans,sans-serif}
+      .title{font-size:35px;font-weight:700;fill:#fff}
+      .head{font-size:22px;font-weight:700}
+      .lab{font-size:19px;font-weight:700}
+      .small{font-size:17px}
+      .mini{font-size:15px;fill:#62708b}
+      .pin{font-family:monospace;font-weight:700;font-size:18px;fill:#fff}
+    </style>
+  </defs>
+  <rect x="0" y="0" width="1480" height="1130" fill="#f5f8fc"/>
+  <rect x="32" y="23" width="1416" height="116" rx="24" fill="#143353"/>
+  <text x="70" y="78" class="title">MI-SO STM32F103C8T6 — Conexiones para Blue Pill</text>
+  <text x="70" y="113" font-size="19" fill="#bfd9f6">ST-Link para programar · USB–TTL 3.3 V para el shell · no utilizar 5 V en señales</text>
+
+  <!-- Programmers -->
+  <rect x="50" y="183" width="348" height="311" rx="20" fill="#fff" stroke="#b5c8db" stroke-width="3"/>
+  <text x="72" y="224" class="head">PROGRAMADOR ST-Link</text>
+  <text x="72" y="250" class="mini">El de tu fotografía · interfaz SWD</text>
+  <rect x="75" y="282" width="112" height="177" rx="12" fill="#d23671"/>
+  <text x="131" y="324" text-anchor="middle" fill="white" font-size="21" font-weight="700">ST-Link</text>
+  <text x="131" y="353" text-anchor="middle" fill="#fff" font-size="14">V2 / SWD</text>
+  <text x="210" y="313" class="small">SWDIO → PA13</text>
+  <text x="210" y="353" class="small">SWCLK → PA14</text>
+  <text x="210" y="393" class="small">GND → GND</text>
+  <text x="210" y="433" class="small">3.3 V* → 3V3</text>
+  <text x="75" y="480" class="mini">*Solo si ofrece alimentación regulada</text>
+
+  <!-- main board -->
+  <rect x="491" y="183" width="481" height="705" rx="36" fill="#146787" stroke="#0d4663" stroke-width="6"/>
+  <rect x="517" y="228" width="432" height="100" rx="14" fill="#075074"/>
+  <text x="733" y="269" text-anchor="middle" font-size="31" fill="white" font-weight="700">BLUE PILL</text>
+  <text x="733" y="301" text-anchor="middle" font-size="18" fill="#d0f4fa">STM32F103C8T6 · ARM Cortex-M3</text>
+  <rect x="592" y="380" width="289" height="146" rx="15" fill="#0d3852" stroke="#74b6ca" stroke-width="3"/>
+  <text x="737" y="425" text-anchor="middle" font-size="26" fill="white" font-weight="700">MI-SO v2.0</text>
+  <text x="737" y="456" text-anchor="middle" font-size="17" fill="#c8ebfd">SysTick + PendSV</text>
+  <text x="737" y="485" text-anchor="middle" font-size="17" fill="#c8ebfd">Kernel propio · 10 TCB</text>
+  <text x="737" y="510" text-anchor="middle" font-size="15" fill="#c8ebfd">64 KB Flash · 20 KB SRAM</text>
+  <rect x="544" y="610" width="124" height="86" rx="12" fill="#aeb6c0" stroke="#e8edf3" stroke-width="3"/>
+  <text x="606" y="654" font-size="20" text-anchor="middle" font-weight="700">USB</text>
+  <text x="606" y="678" class="mini" text-anchor="middle">de placa</text>
+  <rect x="703" y="613" width="219" height="83" rx="12" fill="#0d5275"/>
+  <text x="813" y="649" text-anchor="middle" font-size="21" font-weight="700" fill="white">PC13</text>
+  <text x="813" y="677" text-anchor="middle" font-size="16" fill="#d1f6e9">LED integrado</text>
+  <text x="732" y="743" text-anchor="middle" font-size="16" fill="white">BOOT0 = 0 · Alimentación: 3.3 V</text>
+  <text x="732" y="785" text-anchor="middle" font-size="16" fill="white">SWD: PA13 / PA14 · Serial: PA9 / PA10</text>
+  <text x="732" y="827" text-anchor="middle" font-size="16" fill="white">LEDs: PB12 / PB13 · Botón: PA0 · ADC: PA5</text>
+
+  <!-- pin cable links left to center -->
+  <path d="M 397 309 H 467 V 334 H 490" stroke="#8a48c2" stroke-width="5" fill="none"/>
+  <path d="M 397 351 H 457 V 355 H 490" stroke="#d58e23" stroke-width="5" fill="none"/>
+  <path d="M 397 393 H 446 V 377 H 490" stroke="#586e80" stroke-width="5" fill="none"/>
+  <path d="M 397 432 H 436 V 398 H 490" stroke="#cf4a56" stroke-width="5" fill="none"/>
+
+  <!-- UART panel -->
+  <rect x="1058" y="183" width="373" height="296" rx="20" fill="white" stroke="#b5c8db" stroke-width="3"/>
+  <text x="1082" y="224" class="head">USB–TTL de 3.3 V</text>
+  <text x="1082" y="249" class="mini">Necesario para mostrar el shell</text>
+  <rect x="1083" y="280" width="113" height="129" rx="12" fill="#35a9a7"/>
+  <text x="1139" y="325" text-anchor="middle" fill="white" font-size="19" font-weight="700">USB</text>
+  <text x="1139" y="351" text-anchor="middle" fill="white" font-size="19" font-weight="700">TTL</text>
+  <text x="1218" y="312" class="small">RXD ← PA9 TX</text>
+  <text x="1218" y="351" class="small">TXD → PA10 RX</text>
+  <text x="1218" y="389" class="small">GND ↔ GND</text>
+  <text x="1082" y="440" class="mini">NO conectar VCC si ya hay 3.3 V</text>
+  <path d="M 973 302 H 1056" stroke="#1f91c0" stroke-width="5" fill="none"/>
+  <path d="M 973 332 H 1043 V 351 H 1056" stroke="#47a785" stroke-width="5" fill="none"/>
+  <path d="M 973 360 H 1030 V 389 H 1056" stroke="#586e80" stroke-width="5" fill="none"/>
+
+  <!-- Extra components -->
+  <rect x="1058" y="505" width="373" height="383" rx="20" fill="#fff" stroke="#b5c8db" stroke-width="3"/>
+  <text x="1082" y="544" class="head">Componentes externos</text>
+  <rect x="1080" y="563" width="328" height="67" rx="12" fill="#fff4dc"/>
+  <text x="1093" y="585" class="lab">PB12 → 330 Ω → LED 1</text>
+  <text x="1093" y="609" class="small">Cátodo LED a GND · botón</text>
+  <rect x="1080" y="644" width="328" height="67" rx="12" fill="#e4f7ee"/>
+  <text x="1093" y="666" class="lab">PB13 → 330 Ω → LED 2</text>
+  <text x="1093" y="690" class="small">Cátodo LED a GND · ADC</text>
+  <rect x="1080" y="728" width="328" height="50" rx="10" fill="#e8e9fe"/>
+  <text x="1093" y="760" class="lab">PA0 → Botón → GND</text>
+  <rect x="1080" y="793" width="328" height="74" rx="12" fill="#eef5fc"/>
+  <text x="1093" y="819" class="lab">PA5 → centro potenciómetro</text>
+  <text x="1093" y="847" class="small">Extremos: 3.3 V y GND</text>
+  <path d="M 973 582 H 1056" stroke="#ecb341" stroke-width="5" fill="none"/>
+  <path d="M 973 662 H 1044 V 675 H 1056" stroke="#3fa97c" stroke-width="5" fill="none"/>
+  <path d="M 973 745 H 1056" stroke="#6956b9" stroke-width="5" fill="none"/>
+  <path d="M 973 817 H 1056" stroke="#247dc7" stroke-width="5" fill="none"/>
+
+  <!-- practical steps -->
+  <rect x="46" y="918" width="1388" height="177" rx="20" fill="#e8f2fe" stroke="#c4d9ed" stroke-width="2"/>
+  <text x="73" y="958" class="head">Orden seguro para probar</text>
+  <text x="74" y="994" class="small">1. ST-Link + Blue Pill (BOOT0=0) → programar → LED PC13 parpadea</text>
+  <text x="74" y="1027" class="small">2. Añadir USB–TTL → monitor COM 115200 → help, ps, mem y uptime</text>
+  <text x="74" y="1060" class="small">3. Añadir botón, 2 LEDs y potenciómetro → run pc, adc, sched rr/prio/fcfs, run bench</text>
+  <text x="74" y="1081" font-size="14" fill="#60738b">Conectar según nombres impresos, no según colores del cable. Todas las señales a 3.3 V; GND común.</text>
+</svg>

@@ -1,0 +1,116 @@
+Sesion real por puerto serie, 2026-11-25. 115200 8N1.
+Adaptador: ESP32 con EN a GND (solo su chip USB-serie). Terminal: pyserial miniterm.
+"[?]" marca caracteres ilegibles recibidos una sola vez en la linea.
+
+MI-SO STM32F103C8T6 v2.0 (Cortex-M3)
+Bare-metal | PendSV + SysTick | 1 ms | HSI 8 MHz
+MI-SO Shell listo. Escribe help.
+miso> help
+help, ps, mem, memtest, memfit first|best
+sched rr|prio|fcfs [quantum], quantum N
+run bench, run pc, led 0|1|2 0|1, adc, uptime, kill ID, ver
+miso> ps
+ID NOMBRE ESTADO PRIORIDAD SP CPU% FIN CANARIO PILA_MAX
+0 idle BLOQ 255 536871800 99 0 OK 72/640
+1 shell EJECUTA 2 536872336 0 0 OK 200/640
+2 prod BLOQ 3 536873048 0 0 OK 128/640
+3 cons BLOQ 3 536873680 0 0 OK 120/640
+4 blink BLOQ 4 536874344 0 0 OK 88/640
+5 button BLOQ 4 536874976 0 0 OK 96/640
+6 action BLOQ 4 536875592 0 0 OK 120/640
+miso> uptime
+55360 ms
+miso> mem
+Heap total=4096 usado=0 libre=4096 bloque mayor=4088 bloques=1 modo=first
+miso> memtest
+3 reservas OK; liberando
+Heap total=4096 usado=0 libre=4096 bloque mayor=4088 bloques=1 modo=first
+miso> memfit best
+Heap total=4096 usado=0 libre=4096 bloque mayor=4088 bloques=1 modo=best
+miso> memfit first
+Heap total=4096 usado=0 libre=4096 bloque mayor=4088 bloques=1 modo=first
+miso> run pc
+Productor-consumidor: producidos=677 consumidos=673 nivel=4/4 sem_empty=0 sem_full=4
+miso> adc
+PA5 ADC=1355/4095
+miso> kill 4
+OK
+miso> ps
+ID NOMBRE ESTADO PRIORIDAD SP CPU% FIN CANARIO PILA_MAX
+0 idle BLOQ 255 536871800 99 0 OK 72/640
+1 shell EJECUTA 2 536872336 0 0 OK 232/640
+2 prod BLOQ 3 536873048 0 0 OK 128/640
+3 cons BLOQ 3 536873680 0 0 OK 120/640
+4 blink TERMIN 4 536874344 0 3 OK 88/640
+5 button BLOQ 4 536874976 0 0 OK 96/640
+6 action BLOQ 4 536875592 0 0 OK 120/640
+miso>
+(RESET)
+MI-SO STM32F103C8T6 v2.0 (Cortex-M3)
+Bare-metal | PendSV + SysTick | 1 ms | HSI 8 MHz
+MI-SO Shell listo. Escribe help.
+miso> sched rr 5
+OK
+miso> run bench
+Benchmark: dos tareas CPU[?]0 ticks c/u
+A(prio5) respuesta=0ms espera~=30ms retorno=60ms CPU=30 ticks
+B(prio4) respuesta=5ms espera~=30ms retorno=60ms CPU=30 ticks
+espera aproximada = retorno - CPU; resolucion 1 ms
+miso> sched rr 20
+OK
+miso> run bench
+Benchmark: dos tareas CPU-bound, 30 ticks c/u
+A(prio5) respuesta=0ms espera~=20ms retorno=50ms CPU=30 ticks
+B(prio4) respuesta=20ms espera~=30ms retorno=60ms CPU=30 ticks
+espera aproximada = retorno - CPU; resolucion 1 ms
+miso> sched prio 5
+OK
+miso> run bench
+Benchmark: dos tareas CPU-bound, 30 ticks c/u
+A(prio5) respuesta=30ms espera~=30ms retorno=60ms CPU=30 ticks
+B(prio4) respuesta=0ms espera~=0ms retorno=30ms CPU=30 ticks
+espera aproximada = retorno - CPU; resolucion 1 ms
+miso> sched fcfs
+OK
+miso> run bench
+Benchmark: dos tareas CPU-bound, 30 ticks c/u
+A(prio5) respuesta=0ms espera~=0ms retorno=30ms CPU=30 ticks
+B(prio4) respuesta=30ms espera~=30ms retorno=60ms CPU=30 ticks
+espera aproximada = retorno - CPU; resolucion 1 ms
+miso> sched rr 5
+OK
+miso> run pc
+Productor-consumidor: producidos=889 consumidos=885 nivel=4/4 sem_empty=0 sem_full=4
+miso> ps
+ID NOMBRE ESTADO PRIORIDAD SP CPU% FIN CANARIO PILA_MAX
+0 idle BLOQ 255 536871800 99 0 OK 72/640
+1 shell EJECUTA 2 536872336 0 0 OK 224/640
+2 prod BLOQ 3 536873024 0 0 OK 128/640
+3 cons BLOQ 3 536873680 0 0 OK 120/640
+4 blink BLOQ 4 536874344 0 0 OK 88/640
+5 button BLOQ 4 536874976 0 0 OK 96/640
+6 action BLOQ 4 536875592 0 0 OK 120/640
+7 benchA TERMIN 5 536876224 0 1 OK 128/640
+8 benchB TERMIN 4 536876864 0 1 OK 128/640
+
+(Despues: potenciometro en cada tope)
+miso> adc
+PA5 ADC=718/4095
+miso> adc
+PA5 ADC=4095/4095
+
+(Despues: contadores)
+miso> run pc
+Productor-consumidor: producidos=2341 consumidos=2337 nivel=4/4 sem_empty=0 sem_full=4
+miso> uptime
+489229 ms
+miso> run pc
+Productor-consumidor: producidos=2472 consumidos=2468 nivel=4/4 sem_empty=0 sem_full=4
+
+(Despues: uptime dos veces y potenciometro en el tope de GND)
+miso> uptime
+647341 ms
+miso> uptime
+650882 ms
+miso> adc
+PA5 ADC=4/4095
