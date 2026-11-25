@@ -121,13 +121,13 @@ Con `run pc` medido dos veces, los producidos subieron de 2341 a 2472 y los cons
 
 ## 7. Demostración física
 
-![Montaje completo: Blue Pill, ST-Link, ESP32 como puente serie, botón, potenciómetro y LEDs](fotos/Montaje completo.jpg)
+![Montaje completo: Blue Pill, ST-Link, ESP32 como puente serie, botón, potenciómetro y LEDs](fotos y videos/Montaje completo.jpg)
 
-![PB12 (amarillo) encendido al pulsar el botón: tarea button, cola de mensajes y tarea action](fotos/P12_Encendido.jpg)
+![PB12 (amarillo) encendido al pulsar el botón: tarea button, cola de mensajes y tarea action](fotos y videos/P12_Encendido.jpg)
 
-![PB13 (verde) encendido con el potenciómetro en el tope de 3.3 V: productor-consumidor](fotos/PB13_Encendido.jpg)
+![PB13 (verde) encendido con el potenciómetro en el tope de 3.3 V: productor-consumidor](fotos y videos/PB13_Encendido.jpg)
 
-![PB13 apagado con el potenciómetro en el tope de GND](fotos/Pb13_Apagado.jpg)
+![PB13 apagado con el potenciómetro en el tope de GND](fotos y videos/Pb13_Apagado.jpg)
 
 ## 8. Problemas encontrados y soluciones
 
