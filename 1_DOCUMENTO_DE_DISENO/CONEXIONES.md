@@ -1,6 +1,6 @@
 # Conexiones fáciles de la Blue Pill STM32F103C8T6
 
-En la fotografía se aprecia una placa **Blue Pill** y un programador tipo **ST-Link V2**. Al realizar el cableado, **verifica los nombres impresos de los pines de ambos dispositivos**, porque los colores de los cables no son una identificación eléctrica.
+Se usan una placa **Blue Pill** y un programador **ST-Link V2**. Al realizar el cableado, **verifica los nombres impresos de los pines de ambos dispositivos**, porque los colores de los cables no son una identificación eléctrica.
 
 ## A. Primero: la placa y tu ST-Link (sin protoboard)
 
@@ -11,7 +11,7 @@ En la fotografía se aprecia una placa **Blue Pill** y un programador tipo **ST-
 5. Si el ST-Link dispone de **NRST**, puedes conectarlo a **R** / **NRST** de la Blue Pill (opcional, útil al depurar).
 6. Comprueba que al cargar el firmware el LED de la placa en **PC13** parpadea cada 300 ms. Este es el primer ensayo.
 
-> Si tu ST-Link solo ofrece la referencia de voltaje y no alimentación confiable, utiliza una fuente externa regulada de 3.3 V; comparte una foto de los pines impresos si tienes dudas. No alimentes simultáneamente desde varios conectores.
+> Si tu ST-Link solo ofrece la referencia de voltaje y no alimentación confiable, utiliza una fuente externa regulada de 3.3 V. No alimentes simultáneamente desde varios conectores.
 
 ## B. Después: botón, dos LEDs externos y potenciómetro
 
@@ -33,7 +33,7 @@ La resistencia de cada LED se puede colocar también en el lado del cátodo; lo 
 | PA10 — USART1_RX | TXD |
 | GND | GND |
 
-Deja sin conectar el pin de alimentación **VCC/5V** del USB–TTL si la placa ya está alimentada por la fuente del apartado A. Configura los niveles de señal del adaptador a **3.3 V**. En Windows 11 abre PuTTY, Tera Term o un Monitor Serie y elige `115200`, `8N1`, sin control de flujo. Pulsa RESET para ver el mensaje inicial.
+Deja sin conectar el pin de alimentación **VCC/5V** del USB–TTL si la placa ya está alimentada por la fuente del apartado A. Configura los niveles de señal del adaptador a **3.3 V**. En Windows 10 u 11 abre PuTTY, Tera Term o `python -m serial.tools.miniterm COMx 115200` y elige `115200`, `8N1`, sin control de flujo. Pulsa RESET para ver el mensaje inicial.
 
 ### Alternativa usada en las pruebas: ESP32 como USB–TTL
 
