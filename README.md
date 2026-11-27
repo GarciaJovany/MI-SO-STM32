@@ -2,6 +2,16 @@
 
 Migración del kernel MI-SO para Arduino AVR hacia una **Blue Pill STM32F103C8T6 (ARM Cortex-M3)**. Es una implementación **bare-metal** en C11 y ensamblador ARM, **sin Arduino IDE, HAL, CMSIS-RTOS, FreeRTOS ni Zephyr**. Se conserva la idea pedagógica del proyecto anterior: procesos/TCB, cambio de contexto expropiativo, dos o más algoritmos, sincronización, memoria propia, drivers y consola.
 
+### Entregables
+
+| Entregable | Dónde está |
+|---|---|
+| Código fuente por módulos (`kernel/`, `sched/`, `mem/`, `sync/`, `drivers/`, `shell/`) | [`src/`](src/) — compilación y carga: sección *Cómo compilar y cargar* de este README |
+| Documento de diseño (capas, PCB, estados, cambio de contexto, tabla de libros) | [`1_DOCUMENTO_DE_DISENO/DISENO.pdf`](1_DOCUMENTO_DE_DISENO/DISENO.pdf) |
+| Pruebas y evidencias (planificación, sincronización, memoria) | [`2_PRUEBAS_Y_EVIDENCIAS/PRUEBAS.pdf`](2_PRUEBAS_Y_EVIDENCIAS/PRUEBAS.pdf) |
+| Video del sistema funcionando | [`3_VIDEO/`](3_VIDEO/) |
+| Reporte final (conclusiones y comparación con RTOS comercial) | [`4_REPORTE_FINAL/REPORTE_FINAL.pdf`](4_REPORTE_FINAL/REPORTE_FINAL.pdf) |
+
 ### Especificaciones de hardware adoptadas
 
 - **MCU:** STM32F103C8T6, hasta 72 MHz; diseño inicial conservador con **reloj HSI interno de 8 MHz**.
@@ -17,10 +27,10 @@ Migración del kernel MI-SO para Arduino AVR hacia una **Blue Pill STM32F103C8T6
 1. Instala **Arm GNU Toolchain** (comando `arm-none-eabi-gcc`), **GNU Make** y **OpenOCD**. Agrégalos al `PATH` o utiliza una terminal **MSYS2/Git Bash** (los comandos `mkdir -p` y `rm` del Makefile requieren una terminal tipo Unix). También puedes crear un proyecto bare-metal equivalente en STM32CubeIDE importando el código y linker.
 2. Abre la terminal en la carpeta `MI_SO_STM32F103C8T6`.
 3. Ejecuta `make` y comprueba que se crea `build/mi_so_stm32.elf` (también `.bin` y `.map`).
-4. Conecta el ST-Link tal como indica [`docs/CONEXIONES.md`](docs/CONEXIONES.md), con **BOOT0=0**, y ejecuta `make flash` (usa OpenOCD). Alternativa, usada en las pruebas: `STM32_Programmer_CLI -c port=SWD -w build/mi_so_stm32.bin 0x08000000 -v -rst`.
+4. Conecta el ST-Link tal como indica [`1_DOCUMENTO_DE_DISENO/CONEXIONES.md`](1_DOCUMENTO_DE_DISENO/CONEXIONES.md), con **BOOT0=0**, y ejecuta `make flash` (usa OpenOCD). Alternativa, usada en las pruebas: `STM32_Programmer_CLI -c port=SWD -w build/mi_so_stm32.bin 0x08000000 -v -rst`.
 5. El LED integrado **PC13** debe parpadear. Con un adaptador USB–TTL 3.3 V abre el puerto COM a **115200, 8N1** y prueba `help`, `ps`, `mem`, `uptime`.
 
-**Ojo:** el dongle ST-Link V2 de tu foto normalmente **no crea un puerto COM para UART**. Se necesita un adaptador **USB–TTL 3.3 V** (por ejemplo CP2102) o un ESP32 usado como puente (ver `docs/CONEXIONES.md`) para el shell. También se puede probar inicialmente solo con el ST-Link observando PC13. Nunca conectes señales TTL de 5 V a la Blue Pill.
+**Ojo:** el dongle ST-Link V2 de tu foto normalmente **no crea un puerto COM para UART**. Se necesita un adaptador **USB–TTL 3.3 V** (por ejemplo CP2102) o un ESP32 usado como puente (ver `1_DOCUMENTO_DE_DISENO/CONEXIONES.md`) para el shell. También se puede probar inicialmente solo con el ST-Link observando PC13. Nunca conectes señales TTL de 5 V a la Blue Pill.
 
 ### Pinout utilizado
 
@@ -51,7 +61,7 @@ Conecta **GND común** con ST-Link y USB–TTL. Para la alimentación inicial us
 | `src/app/` | Demo física y benchmark de dos tareas CPU-bound |
 | `linker/` | Reservas de Flash y RAM, ubicaciones de código y datos |
 | `tests/` | Pruebas host de planificación, heap y sincronización (sin MCU) |
-| `docs/` | Arquitectura, conexiones, pruebas y evidencia de consola |
+| `1_DOCUMENTO_DE_DISENO/` … `4_REPORTE_FINAL/` | Entregables (ver tabla al inicio) |
 
 ### Comandos del shell
 
@@ -61,6 +71,6 @@ El benchmark compara `respuesta`, `espera` aproximada y `retorno` para las tarea
 
 ### Estado de validación
 
-Compilado con `arm-none-eabi-gcc`, grabado y probado en una Blue Pill real (2026-11-25): las **13 pruebas de hardware** resultaron OK. Los resultados están en [`docs/PRUEBAS.md`](docs/PRUEBAS.md) y la sesión serie en [`docs/EVIDENCIA_CONSOLA.txt`](docs/EVIDENCIA_CONSOLA.txt). `make test-host` prueba además planificación, heap y sincronización en la PC; complementa las pruebas en placa, no las sustituye.
+Compilado con `arm-none-eabi-gcc`, grabado y probado en una Blue Pill real (2026-11-25): las **13 pruebas de hardware** resultaron OK. Los resultados están en [`2_PRUEBAS_Y_EVIDENCIAS/PRUEBAS.md`](2_PRUEBAS_Y_EVIDENCIAS/PRUEBAS.md) y la sesión serie en [`2_PRUEBAS_Y_EVIDENCIAS/EVIDENCIA_CONSOLA.txt`](2_PRUEBAS_Y_EVIDENCIAS/EVIDENCIA_CONSOLA.txt). `make test-host` prueba además planificación, heap y sincronización en la PC; complementa las pruebas en placa, no las sustituye.
 
 Se ha generado una nueva arquitectura; los PDF previos de Arduino **no son evidencias** del STM32.
