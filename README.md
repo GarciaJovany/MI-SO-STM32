@@ -1,6 +1,8 @@
 # MI-SO v2.0 — Sistema operativo didáctico para STM32F103C8T6
 
-Migración del kernel MI-SO para Arduino AVR hacia una **Blue Pill STM32F103C8T6 (ARM Cortex-M3)**. Es una implementación **bare-metal** en C11 y ensamblador ARM, **sin Arduino IDE, HAL, CMSIS-RTOS, FreeRTOS ni Zephyr**. Se conserva la idea pedagógica del proyecto anterior: procesos/TCB, cambio de contexto expropiativo, dos o más algoritmos, sincronización, memoria propia, drivers y consola.
+Sistema operativo didáctico para la placa **Blue Pill STM32F103C8T6 (ARM Cortex-M3)**. Es una implementación **bare-metal** (sin otro sistema operativo debajo) en C11 y ensamblador ARM, **sin HAL, CMSIS-RTOS, FreeRTOS ni Zephyr**. Incluye: procesos con PCB, cambio de contexto expropiativo, tres algoritmos de planificación, sincronización, gestor de memoria propio, drivers y una consola de comandos.
+
+Proyecto final de Sistemas Operativos, UAZ.
 
 ### Entregables
 
@@ -22,15 +24,43 @@ Migración del kernel MI-SO para Arduino AVR hacia una **Blue Pill STM32F103C8T6
 - **Modos:** Round Robin `rr`, prioridades expropiativas `prio` (RR entre prioridades iguales), FCFS real `fcfs` no expropiativo.
 - Sin MPU de procesos ni aislamiento de memoria; API de kernel es frontera de software, no una frontera de seguridad.
 
-### Cómo compilar y cargar desde Windows 11
+### Cómo compilar y cargar (Windows 10 y Windows 11)
 
-1. Instala **Arm GNU Toolchain** (comando `arm-none-eabi-gcc`), **GNU Make** y **OpenOCD**. Agrégalos al `PATH` o utiliza una terminal **MSYS2/Git Bash** (los comandos `mkdir -p` y `rm` del Makefile requieren una terminal tipo Unix). También puedes crear un proyecto bare-metal equivalente en STM32CubeIDE importando el código y linker.
-2. Abre la terminal en la carpeta `MI_SO_STM32F103C8T6`.
-3. Ejecuta `make` y comprueba que se crea `build/mi_so_stm32.elf` (también `.bin` y `.map`).
-4. Conecta el ST-Link tal como indica [`1_DOCUMENTO_DE_DISENO/CONEXIONES.md`](1_DOCUMENTO_DE_DISENO/CONEXIONES.md), con **BOOT0=0**, y ejecuta `make flash` (usa OpenOCD). Alternativa, usada en las pruebas: `STM32_Programmer_CLI -c port=SWD -w build/mi_so_stm32.bin 0x08000000 -v -rst`.
-5. El LED integrado **PC13** debe parpadear. Con un adaptador USB–TTL 3.3 V abre el puerto COM a **115200, 8N1** y prueba `help`, `ps`, `mem`, `uptime`.
+**Programas que se instalan una sola vez:**
 
-**Ojo:** el dongle ST-Link V2 de tu foto normalmente **no crea un puerto COM para UART**. Se necesita un adaptador **USB–TTL 3.3 V** (por ejemplo CP2102) o un ESP32 usado como puente (ver `1_DOCUMENTO_DE_DISENO/CONEXIONES.md`) para el shell. También se puede probar inicialmente solo con el ST-Link observando PC13. Nunca conectes señales TTL de 5 V a la Blue Pill.
+| Programa | Para qué sirve |
+|---|---|
+| **STM32CubeIDE** (o Arm GNU Toolchain + GNU Make) | Trae el compilador `arm-none-eabi-gcc` y `make` |
+| **STM32CubeProgrammer** | Trae `STM32_Programmer_CLI` y el driver del ST-Link, para grabar la placa |
+| **Git for Windows** | Trae la terminal **Git Bash**; el Makefile usa `mkdir -p` y `rm`, que no existen en CMD |
+| **Python 3** + `pip install pyserial` | Para abrir la consola serie con `miniterm` |
+
+**Pasos:**
+
+1. **Conecta la placa** como indica [`1_DOCUMENTO_DE_DISENO/CONEXIONES.md`](1_DOCUMENTO_DE_DISENO/CONEXIONES.md), con **BOOT0 = 0**.
+2. **Abre Git Bash** en la carpeta `MI_SO_STM32F103C8T6`. Si usas el compilador de STM32CubeIDE, agrégalo al `PATH` en esa terminal (ajusta la ruta si lo instalaste en otro lugar):
+   ```bash
+   P=/c/ST/STM32CubeIDE_2.3.0/STM32CubeIDE/plugins
+   export PATH="$(ls -d $P/*gnu-tools-for-stm32*/tools/bin):$(ls -d $P/*externaltools.make*/tools/bin):$PATH"
+   ```
+3. **Compila:**
+   ```bash
+   make
+   ```
+   Debe crear `build/mi_so_stm32.bin` (también `.elf` y `.map`).
+4. **Graba la placa** con el ST-Link conectado:
+   ```bash
+   STM32_Programmer_CLI -c port=SWD -w build/mi_so_stm32.bin 0x08000000 -v -rst
+   ```
+   Si `STM32_Programmer_CLI` no se encuentra, está en `C:\Program Files\STMicroelectronics\STM32Cube\STM32CubeProgrammer\bin`. Alternativa con OpenOCD: `make flash`.
+5. **Comprueba:** el LED integrado **PC13** debe parpadear.
+6. **Abre la consola** (cambia `COM6` por el puerto de tu adaptador; se ve en *Administrador de dispositivos → Puertos (COM y LPT)*):
+   ```bash
+   python -m serial.tools.miniterm COM6 115200
+   ```
+   Presiona Enter: aparece `miso>`. Prueba `help`, `ps`, `mem` y `uptime`. Para salir: **Ctrl + ]**.
+
+**Ojo:** el ST-Link V2 **no crea un puerto COM** para la consola. Se necesita un adaptador **USB–TTL de 3.3 V** (por ejemplo CP2102) o un **ESP32 como puente** (es lo que se usó en las pruebas; ver `1_DOCUMENTO_DE_DISENO/CONEXIONES.md`). Nunca conectes señales de 5 V a la Blue Pill.
 
 ### Pinout utilizado
 
@@ -57,7 +87,7 @@ Conecta **GND común** con ST-Link y USB–TTL. Para la alimentación inicial us
 | `src/sync/` | Semáforos, mutex con timeout, mailbox y productor–consumidor |
 | `src/mem/` | Heap propio first/best-fit + coalescing |
 | `src/drivers/` | GPIO PC13/PB12/PB13/PA0, UART1, ADC1 PA5 |
-| `src/shell/` | Intérprete de comandos con 14+ opciones |
+| `src/shell/` | Intérprete de comandos (lista abajo) |
 | `src/app/` | Demo física y benchmark de dos tareas CPU-bound |
 | `linker/` | Reservas de Flash y RAM, ubicaciones de código y datos |
 | `tests/` | Pruebas host de planificación, heap y sincronización (sin MCU) |
@@ -67,10 +97,8 @@ Conecta **GND común** con ST-Link y USB–TTL. Para la alimentación inicial us
 
 `help`, `ps`, `mem`, `memtest`, `memfit first`, `memfit best`, `sched rr 5`, `sched prio`, `sched fcfs`, `quantum 20`, `run bench`, `run pc`, `led 0 1`, `led 1 1`, `led 2 1`, `adc`, `uptime`, `kill 4`, `ver`.
 
-El benchmark compara `respuesta`, `espera` aproximada y `retorno` para las tareas `benchA` y `benchB`; se debe ejecutar en cada modo y **registrar datos reales de tu placa**. En FCFS, tareas de CPU sin bloqueo pueden impedir por un tiempo la ejecución de otras tareas; es justamente el comportamiento que se busca medir.
+El benchmark compara `respuesta`, `espera` aproximada y `retorno` para las tareas `benchA` y `benchB` en cada modo; los resultados medidos en la placa están en `2_PRUEBAS_Y_EVIDENCIAS/PRUEBAS.pdf`. En FCFS, tareas de CPU sin bloqueo pueden impedir por un tiempo la ejecución de otras tareas; es justamente el comportamiento que se busca medir.
 
 ### Estado de validación
 
 Compilado con `arm-none-eabi-gcc`, grabado y probado en una Blue Pill real (2026-11-25): las **13 pruebas de hardware** resultaron OK. Los resultados están en [`2_PRUEBAS_Y_EVIDENCIAS/PRUEBAS.md`](2_PRUEBAS_Y_EVIDENCIAS/PRUEBAS.md) y la sesión serie en [`2_PRUEBAS_Y_EVIDENCIAS/EVIDENCIA_CONSOLA.txt`](2_PRUEBAS_Y_EVIDENCIAS/EVIDENCIA_CONSOLA.txt). `make test-host` prueba además planificación, heap y sincronización en la PC; complementa las pruebas en placa, no las sustituye.
-
-Se ha generado una nueva arquitectura; los PDF previos de Arduino **no son evidencias** del STM32.
