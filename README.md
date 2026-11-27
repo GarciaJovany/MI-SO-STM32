@@ -9,7 +9,7 @@ Migración del kernel MI-SO para Arduino AVR hacia una **Blue Pill STM32F103C8T6
 | Código fuente por módulos (`kernel/`, `sched/`, `mem/`, `sync/`, `drivers/`, `shell/`) | [`src/`](src/) — compilación y carga: sección *Cómo compilar y cargar* de este README |
 | Documento de diseño (capas, PCB, estados, cambio de contexto, tabla de libros) | [`1_DOCUMENTO_DE_DISENO/DISENO.pdf`](1_DOCUMENTO_DE_DISENO/DISENO.pdf) |
 | Pruebas y evidencias (planificación, sincronización, memoria) | [`2_PRUEBAS_Y_EVIDENCIAS/PRUEBAS.pdf`](2_PRUEBAS_Y_EVIDENCIAS/PRUEBAS.pdf) |
-| Video del sistema funcionando | [`3_VIDEO/`](3_VIDEO/) |
+| Video del sistema funcionando | https://youtu.be/8ksK_f6eTmM (también en [`3_VIDEO/`](3_VIDEO/)) |
 | Reporte final (conclusiones y comparación con RTOS comercial) | [`4_REPORTE_FINAL/REPORTE_FINAL.pdf`](4_REPORTE_FINAL/REPORTE_FINAL.pdf) |
 
 ### Especificaciones de hardware adoptadas
